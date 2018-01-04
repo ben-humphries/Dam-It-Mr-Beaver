@@ -17,6 +17,9 @@ Player::~Player()
 {
 }
 
+//Overloads Transformable move() function to move our sprite as well.
+//There may be a way to do this by calling the parent function before adding our own stuff,
+//but move() is easy so I just rewrote it
 void Player::move(float x, float y) {
 	sf::Vector2f position = getPosition();
 	setPosition(position.x + x, position.y + y);
@@ -24,6 +27,7 @@ void Player::move(float x, float y) {
 	sprite.setPosition(position.x + x, position.y + y);
 }
 
+//Required overload of Drawable draw(), to draw our sprite when we call gameWindow.draw(player)
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(sprite, states);
 }

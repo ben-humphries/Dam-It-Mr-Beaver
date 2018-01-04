@@ -85,13 +85,15 @@ void Game::Update() {
 
 	gameWindow.draw(player);
 	camera.setCenter(player.getPosition());
-	
+
+	//Camera is bounded so that if the player goes to the top left of the level, the camera stops following.
+	//This will be implemented for all corners once we have an actual background
 	if (camera.getCenter().x < width / 2)
 		camera.setCenter(width / 2, camera.getCenter().y);
 	if (camera.getCenter().y < height / 2)
 		camera.setCenter(camera.getCenter().x, height / 2);
 
-	//gameWindow.setView(camera);
+	gameWindow.setView(camera);
 	gameWindow.display();
 
 }
