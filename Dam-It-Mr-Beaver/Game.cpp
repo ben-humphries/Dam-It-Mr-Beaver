@@ -23,6 +23,7 @@ int Game::Init() {
 	gameState = Uninitialized;
 
 	gameWindow.create(sf::VideoMode(width, height), "Dam It Mr Beaver");
+	gameWindow.setFramerateLimit(60);
 	camera.setSize(width, height);
 	camera.setCenter(width / 2, height / 2);
 	
@@ -61,29 +62,26 @@ void Game::Update() {
 			gameState = Exiting;
 		}
 	}
-	float speed = 500.0f;
+	float speed = 500;
 
 	//Player Input
+	sf::Vector2f velocity;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-		player.move(0.0f, -speed * dt);
+		velocity.y -= speed * dt;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-		player.move(-speed * dt, 0.0f);
+		velocity.x -= speed * dt;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-		player.move(0.0f, speed * dt);
+		velocity.y += speed * dt;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-		player.move(speed * dt, 0.0f);
+		velocity.x += speed * dt;
 	}
+	player.move(velocity);
 
 	gameWindow.clear(sf::Color::White);
-	
-	//Temp//
-	gameWindow.draw(bgSprite);
-	////////
 
-	gameWindow.draw(player);
 	camera.setCenter(player.getPosition());
 
 	//Camera is bounded so that if the player goes to the top left of the level, the camera stops following.
@@ -94,6 +92,13 @@ void Game::Update() {
 		camera.setCenter(camera.getCenter().x, height / 2);
 
 	gameWindow.setView(camera);
+
+	//Temp//
+	gameWindow.draw(bgSprite);
+	////////
+
+	gameWindow.draw(player);
+
 	gameWindow.display();
 
 }
