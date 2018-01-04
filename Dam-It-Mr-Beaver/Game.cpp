@@ -6,6 +6,9 @@ Game::GameState Game::gameState;
 const int width = 800;
 const int height = 600;
 
+Player Game::player("res/player.png");
+
+
 int Game::Init() {
 	gameState = Uninitialized;
 
@@ -37,6 +40,9 @@ void Game::Update() {
 	}
 
 	gameWindow.clear();
+
+	gameWindow.draw(player);
+
 	gameWindow.display();
 
 }
