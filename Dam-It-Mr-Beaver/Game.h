@@ -21,6 +21,7 @@ public:
 	static GameState gameState;
 
 	static sf::RenderWindow gameWindow;
+	static sf::View camera;
 
 	static clock_t t;
 

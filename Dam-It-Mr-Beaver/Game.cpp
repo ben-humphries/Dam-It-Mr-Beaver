@@ -1,7 +1,9 @@
 #include "Game.h"
 
-sf::RenderWindow Game::gameWindow;
 Game::GameState Game::gameState;
+
+sf::RenderWindow Game::gameWindow;
+sf::View Game::camera;
 
 const int width = 800;
 const int height = 600;
@@ -10,13 +12,28 @@ clock_t Game::t;
 
 Player Game::player("res/player.png");
 
+//Temp//
+
+sf::Texture bgTexture;
+sf::Sprite bgSprite;
+
+////////
 
 int Game::Init() {
 	gameState = Uninitialized;
 
 	gameWindow.create(sf::VideoMode(width, height), "Dam It Mr Beaver");
+	camera.setSize(width, height);
+	camera.setCenter(width / 2, height / 2);
 	
 	gameState = Paused;
+
+	//Temp//
+
+	bgTexture.loadFromFile("res/background.png");
+	bgSprite.setTexture(bgTexture);
+
+	////////
 
 	return 0;
 }
@@ -44,7 +61,7 @@ void Game::Update() {
 			gameState = Exiting;
 		}
 	}
-	float speed = 100.0f;
+	float speed = 500.0f;
 
 	//Player Input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
@@ -61,9 +78,20 @@ void Game::Update() {
 	}
 
 	gameWindow.clear(sf::Color::White);
+	
+	//Temp//
+	gameWindow.draw(bgSprite);
+	////////
 
 	gameWindow.draw(player);
+	camera.setCenter(player.getPosition());
+	
+	if (camera.getCenter().x < width / 2)
+		camera.setCenter(width / 2, camera.getCenter().y);
+	if (camera.getCenter().y < height / 2)
+		camera.setCenter(camera.getCenter().x, height / 2);
 
+	//gameWindow.setView(camera);
 	gameWindow.display();
 
 }
