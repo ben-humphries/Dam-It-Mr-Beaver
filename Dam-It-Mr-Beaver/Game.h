@@ -22,6 +22,8 @@ public:
 
 	static sf::RenderWindow gameWindow;
 
+	static clock_t t;
+
 	static Player player;
 
 };

@@ -9,6 +9,7 @@ public:
 	sf::Texture texture;
 	sf::Sprite sprite;
 
+	virtual void move(float x, float y);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const;
 };
 
