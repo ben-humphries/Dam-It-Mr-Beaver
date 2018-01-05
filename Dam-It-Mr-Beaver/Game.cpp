@@ -17,6 +17,8 @@ Player Game::player("res/player.png");
 sf::Texture bgTexture;
 sf::Sprite bgSprite;
 
+Level level(&Game::player);
+
 ////////
 
 int Game::Init() {
@@ -33,6 +35,8 @@ int Game::Init() {
 
 	bgTexture.loadFromFile("res/background.png");
 	bgSprite.setTexture(bgTexture);
+
+	level.load(Level::FOREST);
 
 	////////
 
@@ -94,7 +98,8 @@ void Game::Update() {
 	gameWindow.setView(camera);
 
 	//Temp//
-	gameWindow.draw(bgSprite);
+	//gameWindow.draw(bgSprite);
+	gameWindow.draw(level);
 	////////
 
 	gameWindow.draw(player);

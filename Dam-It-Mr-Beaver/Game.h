@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 
-#include "Player.h"
+#include "Level.h"
 
 class Game
 {

@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "Player.h"
 
-static class Level : sf::Drawable
+static class Level : public sf::Drawable
 {
 public:
 	Level(Player * player);
@@ -20,6 +20,7 @@ public:
 
 	sf::Texture levelTexture;
 	std::vector<sf::Sprite> tiles;
+	int tileSize;
 
 	Player * player;
 
