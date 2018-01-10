@@ -1,0 +1,1 @@
+//something about a town and flooding it by removing the dam, ould be a cool ethical thing where flooding saves the beavers but murders a great number of people

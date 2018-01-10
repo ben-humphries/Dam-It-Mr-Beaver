@@ -10,7 +10,9 @@ const int height = 600;
 
 clock_t Game::t;
 
-Player Game::player("res/player.png");
+Player Game::player("res/bestbeaverisgodbeaver.png");
+
+Map Game::map;
 
 //Temp//
 
@@ -92,7 +94,7 @@ void Game::Update() {
 	//This will be implemented for all corners once we have an actual background
 	if (camera.getCenter().x < width / 2)
 		camera.setCenter(width / 2, camera.getCenter().y);
-	if (camera.getCenter().y < height / 2)
+	if (camera.getCenter().y < height / 2)  
 		camera.setCenter(camera.getCenter().x, height / 2);
 
 	gameWindow.setView(camera);
@@ -103,6 +105,15 @@ void Game::Update() {
 	////////
 
 	gameWindow.draw(player);
+
+	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
+		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
+
+			gameWindow.draw(map.Tyles.at({ i, j }));
+		}
+	}
+
+	
 
 	gameWindow.display();
 

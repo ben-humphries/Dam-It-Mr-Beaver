@@ -1,6 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-
+#include "Map.h"
 #include "Level.h"
 
 class Game
@@ -26,6 +26,7 @@ public:
 	static clock_t t;
 
 	static Player player;
+	static Map map;
 
 };
 
