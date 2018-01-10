@@ -103,16 +103,10 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
-
+	gameWindow.draw(map);	
 	gameWindow.draw(player);
 
-	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
-		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
-
-			gameWindow.draw(map.Tyles.at({ i, j }));
-		}
-	}
-
+	
 	
 
 	gameWindow.display();

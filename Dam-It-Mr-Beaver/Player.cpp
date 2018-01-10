@@ -29,6 +29,8 @@ void Player::move(sf::Vector2f velocity) {
 }
 
 //Required overload of Drawable draw(), to draw our sprite when we call gameWindow.draw(player)
+
+
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(sprite, states);
 }
