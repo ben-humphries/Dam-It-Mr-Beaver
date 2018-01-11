@@ -2,8 +2,9 @@
 #include "Tile.h"
 const int mapHeight = 30;
 const int mapWidth = 30; 
-const int howmanytyletypesthismanytyletypes = 5;
+const int howmanytyletypesthismanytyletypes = 4;
 const float tileWidthHeight = 1;
+const int howmanyinrow = 8;
 class Map : public sf::Drawable, public sf::Transformable
 {
 public:
