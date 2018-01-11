@@ -7,7 +7,8 @@ Map::~Map() {
 }
 void Map::initializeTiles() {
 	//sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
-	int sizeofpicture = 303;
+	int sizeofpicture = 32;
+	int scale = 5;
 	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
 		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
 			int howfaracross = (rand() % howmanytyletypesthismanytyletypes);//gives a value between 0 and the number of tyle types
@@ -22,9 +23,12 @@ void Map::initializeTiles() {
 				howfardown += 1;
 			}
 			sf::IntRect reect(howfaracross * sizeofpicture + (0 * (howfaracross + 1)), howfardown * sizeofpicture + (0*(howfardown + 1)), sizeofpicture, sizeofpicture + 5);
-			Tile * tempTyle = new Tile("res/TexturePack2.png", reect);
+			Tile * tempTyle = new Tile("res/Working on grassssss.png", reect);
+			tempTyle->sprite.setPosition(i* sizeofpicture*scale, j* sizeofpicture*scale);
+			tempTyle->sprite.scale(scale, scale);
 			Tyles[{i, j}] = tempTyle;
-			Tyles[{i, j}]->sprite.setPosition(i* sizeofpicture, j* sizeofpicture);
+			
+			//Tyles[{i, j}]->sprite.setPosition(i* sizeofpicture*scale, j* sizeofpicture*scale);
 		}
 	}
 }

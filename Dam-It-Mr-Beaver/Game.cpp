@@ -1,7 +1,8 @@
 #include "Game.h"
 
 Game::GameState Game::gameState;
-
+using namespace std;
+#include <iostream>
 sf::RenderWindow Game::gameWindow;
 sf::View Game::camera;
 
@@ -87,6 +88,8 @@ void Game::Update() {
 	player.move(velocity);
 
 	gameWindow.clear(sf::Color::White);
+	
+	gameWindow.clear(sf::Color(23, 230, 54, 255));
 
 	camera.setCenter(player.getPosition());
 
