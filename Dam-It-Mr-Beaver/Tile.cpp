@@ -33,3 +33,18 @@ Tile::~Tile() {
 void Tile::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(sprite, states);
 }
+void Tile::initiateFlowers() {
+	sf::Vector2f currentpos = sprite.getPosition();
+	currentpos.x /= scaleValue;
+	currentpos.y /= scaleValue; //have to divide by scale because getPosition() returns values modified by scale
+	cout << currentpos.x << "fwe " << currentpos.y << endl;
+	for (float i = currentpos.y; i < currentpos.y + sizeofpicture; i += heightofflower) {
+		for (float j = currentpos.x; j < currentpos.x + sizeofpicture; j += widthofflower) {
+			flowerLocations[{j, i}] = -1;
+			if (rand() % 4 == 0) {
+				flowerLocations[{j, i}] = rand() % flowerTypeCount;
+
+			}
+		}
+	}
+}
