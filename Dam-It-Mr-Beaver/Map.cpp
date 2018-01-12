@@ -31,20 +31,23 @@ void Map::initializeTiles() {
 			tempTyle->initiateFlowers(); //set up the flowers of r that tile
 			Tyles[{j, i}] = tempTyle;
 			
-			for (float k = i * sizeofpicture; k < i + sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
+			for (float k = i * sizeofpicture; k < i* sizeofpicture + sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
 
-				for (float l = j *sizeofpicture; l < j + sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
-					cout << l << " " << k << endl;
+				for (float l = j *sizeofpicture; l < j*sizeofpicture + sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
+					
+					flowerCheck[{l, k}] = false;
+					cout << tempTyle->flowerLocations.at({ l, k }) << endl;
 					if (tempTyle->flowerLocations.at({ l, k }) != -1) { //if there is a flower there
+						cout << "yee" << endl;
 						sf::IntRect reect(tempTyle->flowerLocations.at({ l, k }) * widthofflower, 4 * sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
 						Tile * tempTyle2 = new Tile("res/grasstest2.png", reect); //and make a new tile for that flower
-						tempTyle2->sprite.setPosition(l * widthofflower * scaleValue, k * widthofflower * scaleValue);
-						tempTyle2->scale(scaleValue, scaleValue);
+						tempTyle2->sprite.setPosition(l * scaleValue, k  * scaleValue);
+						tempTyle2->scale(scaleValue * 49, scaleValue* 49);
 						flowerTyles[{l, k}] = tempTyle2;
+						flowerCheck[{l, k}] = true;
 					}
 				}
 			}
-			cout << "done with that" << j << i << endl;
 			
 			
 		}
@@ -52,17 +55,18 @@ void Map::initializeTiles() {
 }
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-	cout << "here1" << endl;
 	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
 		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
-			target.draw(* Tyles.at({j, i}), states);
-			for (float k = i; k < i + sizeofpicture; k += heightofflower) {
+			target.draw(*Tyles.at({ j, i }), states);
+			for (float k = i *sizeofpicture; k < i + sizeofpicture; k += heightofflower) {
 
-				for (float l = j; l < j + sizeofpicture; l += widthofflower) {
-					target.draw(*flowerTyles.at({ l, k }), states);
+				for (float l = j * sizeofpicture; l < j + sizeofpicture; l += widthofflower) {
+					if (flowerCheck.at({ l, k })) {
+					
+						//target.draw(*flowerTyles.at({ l, k }), states);
+					}
 				}
 			}
 		}
 	}
-	cout << "here2" << endl;
 }

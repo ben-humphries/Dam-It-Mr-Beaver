@@ -6,14 +6,14 @@ using namespace std;
 const int flowerTypeCount = 11;
 const int mapHeight = 30;
 const int mapWidth = 30;
-const int numberOfGrassTyleTypes = 14;
+const int numberOfGrassTyleTypes = 64;
 const int numberOfFlowerTyleTypes = 0;
 const float tileWidthHeight = 1;
-const int howmanyinrow = 8;
-const int sizeofpicture = 32;
+const int howmanyinrow = 16;
+const int sizeofpicture = 16;
 const int heightofflower = 3;
 const int widthofflower = 3;
-const int scaleValue = 5; 
+const int scaleValue = 10; 
 class Tile : public sf::Drawable, public sf::Transformable
 {
 public:

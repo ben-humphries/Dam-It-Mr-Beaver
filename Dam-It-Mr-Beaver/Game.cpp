@@ -31,7 +31,7 @@ int Game::Init() {
 	gameWindow.setFramerateLimit(60);
 	camera.setSize(width, height);
 	camera.setCenter(width / 2, height / 2);
-	
+	camera.zoom(2.5);
 	gameState = Paused;
 
 	//Temp//
@@ -101,7 +101,6 @@ void Game::Update() {
 		camera.setCenter(camera.getCenter().x, height / 2);
 
 	gameWindow.setView(camera);
-
 	//Temp//
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
