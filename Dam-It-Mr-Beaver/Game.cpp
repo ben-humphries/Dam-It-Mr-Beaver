@@ -14,6 +14,8 @@ clock_t Game::t;
 Player Game::player("res/bestbeaverisgodbeaver.png");
 
 Map Game::map;
+std::vector<int> mine;
+
 
 //Temp//
 
@@ -38,7 +40,7 @@ int Game::Init() {
 
 	bgTexture.loadFromFile("res/background.png");
 	bgSprite.setTexture(bgTexture);
-
+	
 	level.load(Level::FOREST);
 
 	////////
@@ -107,7 +109,7 @@ void Game::Update() {
 	////////
 	gameWindow.draw(map);	
 	gameWindow.draw(player);
-
+	
 	
 	
 
