@@ -33,4 +33,28 @@ void Player::move(sf::Vector2f velocity) {
 
 void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(sprite, states);
+
+}
+ 
+ Tile::TyleType Player::FindPositionTyleType(sf::Vector2<float> position, Map map) {
+	 sf::Vector2<int> playerCenterPos;
+	 sf::Vector2<float> tempPos;
+	 tempPos.x = position.x / (Tile::scaleValue * Tile::sizeofpicture);
+	 tempPos.y = position.y / (Tile::scaleValue * Tile::sizeofpicture);
+	 if (tempPos.x - floor(tempPos.x) < .5) { //if tempPos.x would round down
+		 tempPos.x = floor(tempPos.x);
+	 }
+	 else {
+		 tempPos.x = ceil(tempPos.x);
+	 }
+	 if (tempPos.y - floor(tempPos.y) < .5) { //if tempPos.x would round down
+		 tempPos.y = floor(tempPos.y);
+	 }
+	 else {
+		 tempPos.y = ceil(tempPos.y);
+	 }
+	 return map.Tyles.at({ tempPos.x, tempPos.y })->tyleType;
+	
+	 
+
 }

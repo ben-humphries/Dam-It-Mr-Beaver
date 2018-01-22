@@ -6,7 +6,7 @@ Map::~Map() {
 
 }
 void Map::initializeTiles() {
-	//sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
+	//Tile::sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
 
 
 	for (float i = 0; i < mapHeight; i += 1) {
@@ -24,32 +24,30 @@ void Map::initializeTiles() {
 				howfaracross -= howmanyinrow;
 				howfardown += 1;
 			}
-			sf::IntRect reect(howfaracross * sizeofpicture, howfardown * sizeofpicture, sizeofpicture, sizeofpicture);
+			sf::IntRect reect(howfaracross * Tile::sizeofpicture, howfardown * Tile::sizeofpicture, Tile::sizeofpicture, Tile::sizeofpicture);
 			Tile * tempTyle = new Tile("res/grasstest2.png", reect);
-			tempTyle->sprite.setPosition(j* sizeofpicture * scaleValue, i* sizeofpicture * scaleValue);
-			tempTyle->sprite.scale(scaleValue, scaleValue);
+			tempTyle->sprite.setPosition(j* Tile::sizeofpicture * Tile::scaleValue, i* Tile::sizeofpicture * Tile::scaleValue);
+			tempTyle->sprite.scale(Tile::scaleValue, Tile::scaleValue);
 			tempTyle->initiateFlowers(); //set up the flowers of r that tile
 			Tyles[{j, i}] = tempTyle;
 
-			for (float k = i * sizeofpicture; k < i* sizeofpicture + sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
+			for (float k = i * Tile::sizeofpicture; k < i* Tile::sizeofpicture + Tile::sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
 
-				for (float l = j *sizeofpicture; l < j*sizeofpicture + sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
+				for (float l = j *Tile::sizeofpicture; l < j*Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
 
 					flowerCheck[{l, k}] = false;
 					//cout << tempTyle->flowerLocations.at({ l, k }) << endl;
 					if (tempTyle->flowerLocations.at({ l, k }) != -1) { //if there is a flower there
 						//cout << "yee" << endl;
-						sf::IntRect reect(tempTyle->flowerLocations.at({ l, k }) * widthofflower, 4 * sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
+						sf::IntRect reect(tempTyle->flowerLocations.at({ l, k }) * widthofflower, 4 * Tile::sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
 						Tile * tempTyle2 = new Tile("res/grasstest2.png", reect); //and make a new tile for that flower
-						tempTyle2->sprite.setPosition(l * scaleValue, k  * scaleValue);
-						tempTyle2->sprite.scale(scaleValue, scaleValue);
+						tempTyle2->sprite.setPosition(l * Tile::scaleValue, k  * Tile::scaleValue);
+						tempTyle2->sprite.scale(Tile::scaleValue, Tile::scaleValue);
 						flowerTyles[{l, k}] = tempTyle2;
 						flowerCheck[{l, k}] = true;
 					}
 				}
 			}
-
-
 		}
 	}
 
@@ -60,15 +58,15 @@ void Map::initializeTiles() {
 	1, 1, 1, 1 }); //remember that coordinates start at 0, 0
 	setupRiver(river1);
 
-}
+}  
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
 		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
 			target.draw(*Tyles.at({ j, i }), states);
-			for (float k = i *sizeofpicture; k < i * sizeofpicture + sizeofpicture; k += heightofflower) {
+			for (float k = i *Tile::sizeofpicture; k < i * Tile::sizeofpicture + Tile::sizeofpicture; k += heightofflower) {
 
-				for (float l = j * sizeofpicture; l < j * sizeofpicture + sizeofpicture; l += widthofflower) {
+				for (float l = j * Tile::sizeofpicture; l < j * Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {
 					if (flowerCheck.at({ l, k })) {
 						
 						//target.draw(*flowerTyles.at({ l, k }), states); not going to draw flowers for now, too many to be good
@@ -85,13 +83,14 @@ void Map::setupRiver(River * river) {
 		for (int j = river->startCoordinate.x; j < river->startCoordinate.x + river->size.x; j += 1) {
 			
 			if (river->riverTiles.at(arraytracker) != 0) {
-				sf::IntRect reect(14 *sizeofpicture, 14 * sizeofpicture, sizeofpicture, sizeofpicture); 
-				//sf::IntRect reect(0, 0, sizeofpicture, sizeofpicture); //pics are in wrong place, whyyyyy
+				sf::IntRect reect(14 *Tile::sizeofpicture, 14 * Tile::sizeofpicture, Tile::sizeofpicture, Tile::sizeofpicture); 
+				//sf::IntRect reect(0, 0, Tile::sizeofpicture, Tile::sizeofpicture); //pics are in wrong place, whyyyyy
 
 				//sf::IntRect reect(0, 0, 0, 0);
 				Tile * tempTyle = new Tile("res/grasstest2.png", reect);
-				tempTyle->sprite.setPosition(j* sizeofpicture * scaleValue, i* sizeofpicture * scaleValue);
-				tempTyle->sprite.scale(scaleValue, scaleValue);
+				tempTyle->sprite.setPosition(j* Tile::sizeofpicture * Tile::scaleValue, i* Tile::sizeofpicture * Tile::scaleValue);
+				tempTyle->sprite.scale(Tile::scaleValue, Tile::scaleValue);
+				tempTyle->tyleType = Tile::Water;
 				Tyles[{j, i}] = tempTyle; 
 			}
 			arraytracker++;

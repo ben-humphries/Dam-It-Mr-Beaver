@@ -5,7 +5,7 @@ class Map : public sf::Drawable, public sf::Transformable
 public:
 	Map();
 	~Map();
-
+	
 	
 
 	std::vector <Tile *> tempTyles;

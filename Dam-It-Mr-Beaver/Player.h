@@ -1,5 +1,5 @@
 #include <SFML\Graphics.hpp>
-
+#include "Map.h"
 class Player : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -11,5 +11,7 @@ public:
 
 	virtual void move(sf::Vector2f velocity);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const;
+	Tile::TyleType FindPositionTyleType(sf::Vector2<float> position, Map map);
+
 };
 

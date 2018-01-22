@@ -54,15 +54,13 @@ void Game::Start() {
 	while (gameState != Exiting) {
 		Update();
 	}
-	
 }
 
 void Game::Update() {
 
 	float dt = ((float)(clock() - t)) / CLOCKS_PER_SEC;
 	t = clock();
-
-
+	player.FindPositionTyleType({player.sprite.get
 	sf::Event event;
 	while (gameWindow.pollEvent(event))
 	{
@@ -76,6 +74,7 @@ void Game::Update() {
 	//Player Input
 	sf::Vector2f velocity;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
+		
 		velocity.y -= speed * dt;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
