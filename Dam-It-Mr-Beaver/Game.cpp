@@ -57,10 +57,10 @@ void Game::Start() {
 }
 
 void Game::Update() {
-
+	cout << "Tyles is the only way to be " << endl;
 	float dt = ((float)(clock() - t)) / CLOCKS_PER_SEC;
 	t = clock();
-	player.FindPositionTyleType({player.sprite.get
+	//player.FindPositionType({player.sprite.get will add + fix
 	sf::Event event;
 	while (gameWindow.pollEvent(event))
 	{

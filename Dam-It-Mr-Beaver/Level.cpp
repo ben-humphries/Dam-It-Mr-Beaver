@@ -32,7 +32,7 @@ void Level::load(Level::LevelName levelName) {
 
 void Level::draw(sf::RenderTarget & target, sf::RenderStates states) const{
 	sf::Vector2f playerPosition = player->getPosition();
-	printf("%d", tileSize);
+	//printf("%d", tileSize);
 	for (int i = 0; i < tiles.size(); i++) {
 		sf::Vector2f tilePosition = tiles[i].getPosition();
 		if (tilePosition.x - tileSize / 2 < playerPosition.x && playerPosition.x < tilePosition.x + tileSize / 2 &&

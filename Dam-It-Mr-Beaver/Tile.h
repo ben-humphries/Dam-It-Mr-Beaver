@@ -13,12 +13,14 @@ const float tileWidthHeight = 1;
 const int howmanyinrow = 16;
 const int heightofflower = 3;
 const int widthofflower = 3;
+
+static const int sizeofpicture = 16;
+
+static const int scaleValue = 10;
 class Tile : public sf::Drawable, public sf::Transformable
 {
 public:
 
-	static const int sizeofpicture = 16;
-	static const int scaleValue = 10;
 	Tile(std::string dir);
 	Tile(std::string dir, sf::IntRect rectangle);
 	~Tile();

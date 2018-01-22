@@ -6,7 +6,7 @@ Map::~Map() {
 
 }
 void Map::initializeTiles() {
-	//Tile::sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
+	//sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
 
 
 	for (float i = 0; i < mapHeight; i += 1) {
@@ -32,9 +32,9 @@ void Map::initializeTiles() {
 			tempTile->initiateFlowers(); //set up the flowers of r that tile
 			Tiles[{j, i}] = tempTile;
 
-			for (float k = i * Tile::sizeofpicture; k < i* Tile::sizeofpicture + Tile::sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
+			for (float k = i * sizeofpicture; k < i* sizeofpicture + sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
 
-				for (float l = j *Tile::sizeofpicture; l < j*Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
+				for (float l = j *sizeofpicture; l < j*sizeofpicture + sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
 
 					flowerCheck[{l, k}] = false;
 					//cout << tempTile->flowerLocations.at({ l, k }) << endl;
@@ -67,7 +67,7 @@ void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 			target.draw(*Tiles.at({ j, i }), states);
 			for (float k = i *sizeofpicture; k < i * sizeofpicture + sizeofpicture; k += heightofflower) {
 
-				for (float l = j * Tile::sizeofpicture; l < j * Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {
+				for (float l = j * sizeofpicture; l < j * sizeofpicture + sizeofpicture; l += widthofflower) {
 					if (flowerCheck.at({ l, k })) {
 						
 						//target.draw(*flowerTiles.at({ l, k }), states); not going to draw flowers for now, too many to be good
@@ -84,8 +84,8 @@ void Map::setupRiver(River * river) {
 		for (int j = river->startCoordinate.x; j < river->startCoordinate.x + river->size.x; j += 1) {
 			
 			if (river->riverTiles.at(arraytracker) != 0) {
-				sf::IntRect reect(14 *Tile::sizeofpicture, 14 * Tile::sizeofpicture, Tile::sizeofpicture, Tile::sizeofpicture); 
-				//sf::IntRect reect(0, 0, Tile::sizeofpicture, Tile::sizeofpicture); //pics are in wrong place, whyyyyy
+				sf::IntRect reect(14 *sizeofpicture, 14 * sizeofpicture, sizeofpicture, sizeofpicture); 
+				//sf::IntRect reect(0, 0, sizeofpicture, sizeofpicture); //pics are in wrong place, whyyyyy
 
 				//sf::IntRect reect(0, 0, 0, 0);
 				Tile * tempTile = new Tile("res/grasstest2.png", reect);
