@@ -12,8 +12,8 @@ void Map::initializeTiles() {
 	for (float i = 0; i < mapHeight; i += 1) {
 		for (float j = 0; j < mapWidth; j += 1) {
 
-			int tyleID = (rand() % numberOfGrassTyleTypes);//gives a value between 0 and the number of tyle types
-			int howfaracross = tyleID;
+			int tileID = (rand() % numberOfGrassTileTypes);//gives a value between 0 and the number of tile types
+			int howfaracross = tileID;
 			int howfardown = 0;
 
 			//if there are, say, 64 tiles, we need a way to get to a tile in the middle.
@@ -24,26 +24,27 @@ void Map::initializeTiles() {
 				howfaracross -= howmanyinrow;
 				howfardown += 1;
 			}
-			sf::IntRect reect(howfaracross * Tile::sizeofpicture, howfardown * Tile::sizeofpicture, Tile::sizeofpicture, Tile::sizeofpicture);
-			Tile * tempTyle = new Tile("res/grasstest2.png", reect);
-			tempTyle->sprite.setPosition(j* Tile::sizeofpicture * Tile::scaleValue, i* Tile::sizeofpicture * Tile::scaleValue);
-			tempTyle->sprite.scale(Tile::scaleValue, Tile::scaleValue);
-			tempTyle->initiateFlowers(); //set up the flowers of r that tile
-			Tyles[{j, i}] = tempTyle;
+
+			sf::IntRect reect(howfaracross * sizeofpicture, howfardown * sizeofpicture, sizeofpicture, sizeofpicture);
+			Tile * tempTile = new Tile("res/grasstest2.png", reect);
+			tempTile->sprite.setPosition(j* sizeofpicture * scaleValue, i* sizeofpicture * scaleValue);
+			tempTile->sprite.scale(scaleValue, scaleValue);
+			tempTile->initiateFlowers(); //set up the flowers of r that tile
+			Tiles[{j, i}] = tempTile;
 
 			for (float k = i * Tile::sizeofpicture; k < i* Tile::sizeofpicture + Tile::sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
 
 				for (float l = j *Tile::sizeofpicture; l < j*Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
 
 					flowerCheck[{l, k}] = false;
-					//cout << tempTyle->flowerLocations.at({ l, k }) << endl;
-					if (tempTyle->flowerLocations.at({ l, k }) != -1) { //if there is a flower there
+					//cout << tempTile->flowerLocations.at({ l, k }) << endl;
+					if (tempTile->flowerLocations.at({ l, k }) != -1) { //if there is a flower there
 						//cout << "yee" << endl;
-						sf::IntRect reect(tempTyle->flowerLocations.at({ l, k }) * widthofflower, 4 * Tile::sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
-						Tile * tempTyle2 = new Tile("res/grasstest2.png", reect); //and make a new tile for that flower
-						tempTyle2->sprite.setPosition(l * Tile::scaleValue, k  * Tile::scaleValue);
-						tempTyle2->sprite.scale(Tile::scaleValue, Tile::scaleValue);
-						flowerTyles[{l, k}] = tempTyle2;
+						sf::IntRect reect(tempTile->flowerLocations.at({ l, k }) * widthofflower, 4 * sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
+						Tile * tempTile2 = new Tile("res/grasstest2.png", reect); //and make a new tile for that flower
+						tempTile2->sprite.setPosition(l * scaleValue, k  * scaleValue);
+						tempTile2->sprite.scale(scaleValue, scaleValue);
+						flowerTiles[{l, k}] = tempTile2;
 						flowerCheck[{l, k}] = true;
 					}
 				}
@@ -63,13 +64,13 @@ void Map::initializeTiles() {
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
 		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
-			target.draw(*Tyles.at({ j, i }), states);
-			for (float k = i *Tile::sizeofpicture; k < i * Tile::sizeofpicture + Tile::sizeofpicture; k += heightofflower) {
+			target.draw(*Tiles.at({ j, i }), states);
+			for (float k = i *sizeofpicture; k < i * sizeofpicture + sizeofpicture; k += heightofflower) {
 
 				for (float l = j * Tile::sizeofpicture; l < j * Tile::sizeofpicture + Tile::sizeofpicture; l += widthofflower) {
 					if (flowerCheck.at({ l, k })) {
 						
-						//target.draw(*flowerTyles.at({ l, k }), states); not going to draw flowers for now, too many to be good
+						//target.draw(*flowerTiles.at({ l, k }), states); not going to draw flowers for now, too many to be good
 					}
 				}
 			}
@@ -87,11 +88,10 @@ void Map::setupRiver(River * river) {
 				//sf::IntRect reect(0, 0, Tile::sizeofpicture, Tile::sizeofpicture); //pics are in wrong place, whyyyyy
 
 				//sf::IntRect reect(0, 0, 0, 0);
-				Tile * tempTyle = new Tile("res/grasstest2.png", reect);
-				tempTyle->sprite.setPosition(j* Tile::sizeofpicture * Tile::scaleValue, i* Tile::sizeofpicture * Tile::scaleValue);
-				tempTyle->sprite.scale(Tile::scaleValue, Tile::scaleValue);
-				tempTyle->tyleType = Tile::Water;
-				Tyles[{j, i}] = tempTyle; 
+				Tile * tempTile = new Tile("res/grasstest2.png", reect);
+				tempTile->sprite.setPosition(j* sizeofpicture * scaleValue, i* sizeofpicture * scaleValue);
+				tempTile->sprite.scale(scaleValue, scaleValue);
+				Tiles[{j, i}] = tempTile; 
 			}
 			arraytracker++;
 		}
