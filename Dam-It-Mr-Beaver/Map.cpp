@@ -87,7 +87,7 @@ void Map::whatTilesToDraw(sf::Vector2<int> playerPos) {
 	
 	for (float i = 0; i < mapHeight; i += 1) {
 		for (float j = 0; j < mapWidth; j += 1) {
-			Tiles.at({ j, i })->shouldDraw = true;
+			Tiles.at({ j, i })->shouldDraw = false;
 			if (abs(playerPos.x - j) < 6 && abs(playerPos.y - i) < 4) { //6 and 4 are too short, will change
 				Tiles.at({ j, i })->shouldDraw = true;
 			}
