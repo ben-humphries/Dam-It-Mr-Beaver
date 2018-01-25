@@ -9,7 +9,6 @@ const int mapHeight = 30;
 const int mapWidth = 30;
 const int numberOfGrassTileTypes = 64;
 const int numberOfFlowerTileTypes = 0;
-const float tileWidthHeight = 1;
 const int howmanyinrow = 16;
 const int heightofflower = 3;
 const int widthofflower = 3;
@@ -33,7 +32,7 @@ public:
 		Brick
 	};
 	TyleType tyleType = Grass;
-
+	bool shouldDraw = false;
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const;
 	void initiateFlowers();
 	std::map<std::tuple <float, float>, int> flowerLocations;

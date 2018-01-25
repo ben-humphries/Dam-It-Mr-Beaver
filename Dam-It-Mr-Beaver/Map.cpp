@@ -61,18 +61,35 @@ void Map::initializeTiles() {
 
 }  
 
-void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-	for (float i = 0; i < mapHeight; i += tileWidthHeight) {
-		for (float j = 0; j < mapWidth; j += tileWidthHeight) {
-			target.draw(*Tiles.at({ j, i }), states);
-			for (float k = i *sizeofpicture; k < i * sizeofpicture + sizeofpicture; k += heightofflower) {
 
-				for (float l = j * sizeofpicture; l < j * sizeofpicture + sizeofpicture; l += widthofflower) {
-					if (flowerCheck.at({ l, k })) {
+void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
+	sf::Vector2<int> start;
+	sf::Vector2<int> end;
+
+	for (float i = 0; i < mapHeight; i += 1) {
+		for (float j = 0; j < mapWidth; j += 1) {
+			if (Tiles.at({ j, i })->shouldDraw) {
+				target.draw(*Tiles.at({ j, i }), states);
+			}
+			
+			//for (float k = i *sizeofpicture; k < i * sizeofpicture + sizeofpicture; k += heightofflower) {
+
+				//for (float l = j * sizeofpicture; l < j * sizeofpicture + sizeofpicture; l += widthofflower) {
+					//if (flowerCheck.at({ l, k })) {
 						
 						//target.draw(*flowerTiles.at({ l, k }), states); not going to draw flowers for now, too many to be good
-					}
-				}
+					//}
+			//	}
+			}
+		}
+	}
+void Map::whatTilesToDraw(sf::Vector2<int> playerPos) {
+	
+	for (float i = 0; i < mapHeight; i += 1) {
+		for (float j = 0; j < mapWidth; j += 1) {
+			Tiles.at({ j, i })->shouldDraw = true;
+			if (abs(playerPos.x - j) < 6 && abs(playerPos.y - i) < 4) { //6 and 4 are too short, will change
+				Tiles.at({ j, i })->shouldDraw = true;
 			}
 		}
 	}

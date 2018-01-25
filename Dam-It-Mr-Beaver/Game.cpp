@@ -57,10 +57,8 @@ void Game::Start() {
 }
 
 void Game::Update() {
-	cout << "Tyles is the only way to be " << endl;
 	float dt = ((float)(clock() - t)) / CLOCKS_PER_SEC;
 	t = clock();
-	//player.FindPositionType({player.sprite.get will add + fix
 	sf::Event event;
 	while (gameWindow.pollEvent(event))
 	{
@@ -106,6 +104,13 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
+	
+	map.timeSinceLastDrawCheck += 1;
+	if (map.timeSinceLastDrawCheck >= 5) {
+		map.whatTilesToDraw(player.findIntegerPlayerPosition(player.getPosition()));
+		map.timeSinceLastDrawCheck = 0;
+	}
+
 	gameWindow.draw(map);	
 	gameWindow.draw(player);
 	

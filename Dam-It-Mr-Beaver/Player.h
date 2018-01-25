@@ -11,7 +11,6 @@ public:
 
 	virtual void move(sf::Vector2f velocity);
 	virtual void draw(sf::RenderTarget & target, sf::RenderStates states) const;
-	Tile::TyleType FindPositionTyleType(sf::Vector2<float> position, Map map);
-
+	sf::Vector2<int> findIntegerPlayerPosition(sf::Vector2<float> position);
 };
 

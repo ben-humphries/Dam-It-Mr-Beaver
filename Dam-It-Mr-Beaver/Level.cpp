@@ -25,7 +25,7 @@ void Level::load(Level::LevelName levelName) {
 		sf::Sprite s;
 		s.setTexture(levelTexture);
 		s.setTextureRect(sf::IntRect(numTiles * i % tileSize, numTiles * i / tileSize, tileSize, tileSize));
-		s.setOrigin(tileSize / 2, tileSize / 2);
+		s.setOrigin(tileSize / 2, tileSize / 2);	
 		tiles.push_back(s);
 	}
 }

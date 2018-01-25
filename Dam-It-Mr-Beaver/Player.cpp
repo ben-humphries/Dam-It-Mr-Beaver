@@ -36,25 +36,23 @@ void Player::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 
 }
  
- Tile::TyleType Player::FindPositionTyleType(sf::Vector2<float> position, Map map) {
-	 sf::Vector2<int> playerCenterPos;
-	 sf::Vector2<float> tempPos;
-	 tempPos.x = position.x / (scaleValue * sizeofpicture);
-	 tempPos.y = position.y / (scaleValue * sizeofpicture);
-	 if (tempPos.x - floor(tempPos.x) < .5) { //if tempPos.x would round down
-		 tempPos.x = floor(tempPos.x);
-	 }
-	 else {
-		 tempPos.x = ceil(tempPos.x);
-	 }
-	 if (tempPos.y - floor(tempPos.y) < .5) { //if tempPos.x would round down
-		 tempPos.y = floor(tempPos.y);
-	 }
-	 else {
-		 tempPos.y = ceil(tempPos.y);
-	 }
-	 return map.Tiles.at({ tempPos.x, tempPos.y })->tyleType;
-	
-	 
 
+sf::Vector2<int> Player::findIntegerPlayerPosition(sf::Vector2<float> position) {
+	sf::Vector2<int> playerCenterPos;
+	sf::Vector2<int> tempPos;
+	tempPos.x = position.x / (scaleValue * sizeofpicture);
+	tempPos.y = position.y / (scaleValue * sizeofpicture);
+	if (tempPos.x - floor(tempPos.x) < .5) { //if tempPos.x would round down
+		tempPos.x = floor(tempPos.x);
+	}
+	else {
+		tempPos.x = ceil(tempPos.x);
+	}
+	if (tempPos.y - floor(tempPos.y) < .5) { //if tempPos.x would round down
+		tempPos.y = floor(tempPos.y);
+	}
+	else {
+		tempPos.y = ceil(tempPos.y);
+	}
+	return tempPos;
 }
