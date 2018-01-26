@@ -104,9 +104,8 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
-	
 	map.timeSinceLastDrawCheck += 1;
-	if (map.timeSinceLastDrawCheck >= 5) {
+	if (map.timeSinceLastDrawCheck >= 50) {
 		map.whatTilesToDraw(player.findIntegerPlayerPosition(player.getPosition()));
 		map.timeSinceLastDrawCheck = 0;
 	}

@@ -17,13 +17,16 @@ Tile::Tile(std::string dir) {
 
 Tile::Tile(std::string dir, sf::IntRect rectangle) {
 	if (!texture.loadFromFile(dir, rectangle)) {
-		printf("NAWEIFNAIWE ");
+		printf("Couldn't load tile texture with rectangle"); //this is basically antiquated with new tile image system
 	}
 	else {
 		sprite.setTexture(texture);
 		sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);
 		sprite.setScale(1.0f, 1.0f);
 	}
+}
+Tile::Tile(int spriteIDi) {
+	spriteID = spriteIDi;
 }
 
 Tile::~Tile() {
@@ -33,7 +36,9 @@ Tile::~Tile() {
 void Tile::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	target.draw(sprite, states);
 }
+
 void Tile::initiateFlowers() {
+	/* this function is too memory intensive, just going to kill off
 	sf::Vector2f currentpos = sprite.getPosition();
 	currentpos.x /= scaleValue;
 	currentpos.y /= scaleValue; //have to divide by scale because getPosition() returns values modified by scale
@@ -46,4 +51,5 @@ void Tile::initiateFlowers() {
 			}
 		}
 	}
+	*/
 } 
