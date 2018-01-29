@@ -16,7 +16,6 @@ Player Game::player("res/bestbeaverisgodbeaver.png");
 Map Game::map;
 std::vector<int> mine;
 
-
 //Temp//
 
 sf::Texture bgTexture;
@@ -68,6 +67,7 @@ void Game::Update() {
 		}
 	}
 	float speed = 500;
+	
 
 	//Player Input
 	sf::Vector2f velocity;
@@ -91,7 +91,7 @@ void Game::Update() {
 	gameWindow.clear(sf::Color(23, 230, 54, 255));
 
 	camera.setCenter(player.getPosition());
-
+	
 	//Camera is bounded so that if the player goes to the top left of the level, the camera stops following.
 	//This will be implemented for all corners once we have an actual background
 	if (camera.getCenter().x < width / 2)
@@ -104,12 +104,19 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
-	map.timeSinceLastDrawCheck += 1;
-	if (map.timeSinceLastDrawCheck >= 50) {
-		map.whatTilesToDraw(player.findIntegerPlayerPosition(player.getPosition()));
-		map.timeSinceLastDrawCheck = 0;
+	map.timeSinceLastDrawCheck ++;
+	//if (map.timeSinceLastDrawCheck >= 50) {
+		//map.whatTilesToDraw(player.findIntegerPlayerPosition(player.getPosition()));
+		//map.timeSinceLastDrawCheck = 0;
+	//}
+	map.timeSinceLastRenderCheck++;
+	if (map.timeSinceLastRenderCheck >= 15) {
+		sf::Vector2<int> tempPlayerPos = player.findIntegerPlayerPosition(player.getPosition());
+		map.renderMoreTiles(tempPlayerPos);
+		map.playerPos = tempPlayerPos; //update the playerpos stored internally in map for drawing purposes. 
+		
+		map.timeSinceLastRenderCheck = 0;
 	}
-
 	gameWindow.draw(map);	
 	gameWindow.draw(player);
 	

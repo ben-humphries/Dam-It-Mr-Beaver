@@ -7,13 +7,12 @@ Map::~Map() {
 }
 void Map::initializeTiles() {
 	//sizeofpicture is me figuring out how big each tile is in the texture pack, will be better when we have photoshop
-	
+
 	if (!tileTexture.loadFromFile("res/grasstest2.png")) {
 		printf("Could not load tile spritesheet");
 	}
 	int x = 0;
 	int y = 0;
-	
 	rect.height = sizeofpicture;
 	rect.width = sizeofpicture;
 	rect.left = 0;
@@ -34,9 +33,26 @@ void Map::initializeTiles() {
 		}
 		rect.left = x * sizeofpicture;
 	}
-	x = 0; 
+	x = 0;
 	y = 0;
-	for (int i = 0; i < numberOfRiverTiles; i++) {
+	for (int i = 0; i < numberOfTreeTiles; i++) { //setup tree sprites
+		sf::Sprite * tempTileSprite = new sf::Sprite;
+		tempTileSprite->setTexture(tileTexture);
+		rect.left = (12 * sizeofpicture) + x * sizeofpicture;
+		rect.top = (14 * sizeofpicture) + y * sizeofpicture;
+		tempTileSprite->setTextureRect(rect);
+		tempTileSprite->scale(scaleValue, scaleValue);
+		tileSprites.push_back(tempTileSprite);
+		x++;
+		if (x >= 2) {
+			x = 0;
+			y++;
+			rect.top = y * sizeofpicture;
+		}
+	}
+	x = 0;
+	y = 0;
+	for (int i = 0; i < numberOfRiverTiles; i++) { //setup river sprites
 		sf::Sprite * tempTileSprite = new sf::Sprite;
 		tempTileSprite->setTexture(tileTexture); //possibly can do this outside the for loop, unsure though
 
@@ -53,8 +69,11 @@ void Map::initializeTiles() {
 		}
 
 	}
+	
+	
 	for (int i = 0; i < mapWidth; i++) {
-		for (int j = 0; j < mapHeight; j++) {
+		for (int j = 0; j < mapHeight; j++) { //do the initial tile render. out of date but will use for now.
+			tileRendered[{i, j}] = true;
 			int tileID = rand() % numberOfGrassTiles;//gives a value between 0 and the number of tile types
 			Tile * tempTile = new Tile(tileID);
 
@@ -62,88 +81,46 @@ void Map::initializeTiles() {
 		}
 	}
 
-	/* killing all of this, was old an innefecient. will delete when other thing twerks. 
-	for (float i = 0; i < mapHeight; i += 1) {
-		for (float j = 0; j < mapWidth; j += 1) {
-
-			int tileID = (rand() % numberOfGrassTileTypes);//gives a value between 0 and the number of tile types
-
-			int x = tileID;
-			int y = 0;
-
-			//if there are, say, 64 tiles, we need a way to get to a tile in the middle.
-			//of a texture pack that's 8 by 8. if we get tile number 27, a tile in the 4th row,
-			//we go tile 27 which is greater than 8, 19 is greater than 8, 11, 3. we know the tile is 3 from the right. we also know it's 3 down (first row is 0 down)
-			//bam, we have the right tile. 
-			while (x >= howmanyinrow) {
-				x -= howmanyinrow;
-				y += 1;
-			}
-
-			sf::IntRect reect(x * sizeofpicture, y * sizeofpicture, sizeofpicture, sizeofpicture);
-			
-			Tile * tempTile = new Tile("res/grasstest2.png", reect);
-			tempTile->sprite.setPosition(j* sizeofpicture * scaleValue, i* sizeofpicture * scaleValue);
-			tempTile->sprite.scale(scaleValue, scaleValue);
-			//tempTile->initiateFlowers(); //set up the flowers of r that tile. commented out to reduce lag?
-			Tiles[{j, i}] = tempTile;
-			/*
-				for (float k = i * sizeofpicture; k < i* sizeofpicture + sizeofpicture; k += heightofflower) { //iterate from the top to the bottom of the current tile (i is top)
-
-					for (float l = j *sizeofpicture; l < j*sizeofpicture + sizeofpicture; l += widthofflower) {//go from left to right at that current lenght checking for flower 
-
-						flowerCheck[{l, k}] = false;
-						//cout << tempTile->flowerLocations.at({ l, k }) << endl;
-						if (tempTile->flowerLocations.at({ l, k }) != -1) { //if there is a flower there
-							//cout << "yee" << endl;
-							sf::IntRect reect(tempTile->flowerLocations.at({ l, k }) * widthofflower, 4 * sizeofpicture, widthofflower, heightofflower); //find the sprite location for that flower
-							Tile * tempTile2 = new Tile("res/grasstest2.png", reect); //and make a new tile for that flower
-							tempTile2->sprite.setPosition(l * scaleValue, k  * scaleValue);
-							tempTile2->sprite.scale(scaleValue, scaleValue);
-							flowerTiles[{l, k}] = tempTile2;
-							flowerCheck[{l, k}] = true;
-						}
-					}
-				
-			}
-			
-		}
-		
-	}
-	*/
 	River * river1 = new River(8, 8, 9, 9,
 	{ 1, 1, 1, 1, 1, 1, 1, 1,
-	  0, 0, 0, 0, 0, 0, 1, 1, 
-      1, 1, 1, 1, 1, 0, 1, 1,
+	  0, 0, 0, 0, 0, 0, 1, 1,
+	  1, 1, 1, 1, 1, 0, 1, 1,
 	  1, 0, 0, 0, 0, 0, 1, 1,
 	  1, 0, 1, 1, 1, 0, 1, 1,
 	  1, 0, 1, 1, 1, 0, 1, 1,
 	  1, 0, 0, 0, 0, 0, 1, 1,
-	  1, 1, 1, 1, 1, 1, 1, 1}); //remember that coordinates start at 0, 0
-	  setupRiver(river1); 
-
+	  1, 1, 1, 1, 1, 1, 1, 1 }); //remember that coordinates start at 0, 0
+	setupRiver(river1);
+	Tree * tree1 = new Tree(3, 3, 1, 1, { //position is for top left of the thing, not bot right
+		0, 2, 0,
+		2, 2, 2,
+		0, 1, 0
+	});
+	setupTree(tree1);	
 }  
 
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-	sf::Vector2<int> start;
-	sf::Vector2<int> end;
 
-	for (float i = 0; i < mapHeight; i += 1) {
-		for (float j = 0; j < mapWidth; j += 1) {
-			if (Tiles.at({ j, i })->shouldDraw) {
+	for (float i = playerPos.y - 9; i < playerPos.y + 9; i += 1) {
+		for (float j = playerPos.x - 10; j < playerPos.x + 10; j += 1) {
+			if (i >= 0 && j >= 0) {
+				cout << j << " " << i << endl;
 				tileSprites.at(Tiles.at({ j, i })->spriteID)->setPosition(j * sizeofpicture * scaleValue, i*  sizeofpicture * scaleValue);
-				target.draw(* tileSprites.at(Tiles.at({ j, i })->spriteID), states);
-			}
+
+				target.draw(*tileSprites.at(Tiles.at({ j, i })->spriteID), states);
+				cout << "Done" << endl;
+
 			}
 		}
 	}
+}
 void Map::whatTilesToDraw(sf::Vector2<int> playerPos) {
 	
 	for (float i = 0; i < mapHeight; i += 1) {
 		for (float j = 0; j < mapWidth; j += 1) {
 			Tiles.at({ j, i })->shouldDraw = false;
-			if (abs(playerPos.x - j) < 8 && abs(playerPos.y - i) < 7) { //change to 6 and 4 to test
+			if (abs(playerPos.x - j) < 10 && abs(playerPos.y - i) < 8.5) {
 				Tiles.at({ j, i })->shouldDraw = true;
 			}
 		}
@@ -156,12 +133,68 @@ void Map::setupRiver(River * river) {
 		for (int j = river->startCoordinate.x; j < river->startCoordinate.x + river->size.x; j += 1) {
 			
 			if (river->riverTiles.at(arraytracker) != 0) {
-				int tileID = rand() % numberOfRiverTiles + numberOfGrassTiles; //gives a number between 64 and 67, where the thing is in the sprites array
-				Tile * tempTile = new Tile(tileID);
-				Tiles[{j, i}] = tempTile; 
+				int tileID = rand() % numberOfRiverTiles + numberOfGrassTiles + numberOfTreeTiles; //gives a number between 64 and 67, where the thing is in the sprites array
+				Tiles[{j, i}]->spriteID = tileID;
 			}
 			arraytracker++;
 		}
 		
 	}
+}
+void Map::setupTree(Tree * tree) { 
+int arraytracker = 0;
+int tileID = 0;
+	for (int i = tree->startCoordinate.y; i < tree->startCoordinate.y + tree->size.y; i += 1) { //because the map coordinates and river size are in the same 1 per 1 tile system, += 1
+		//this one actual does have to do .y first, then .x to make the push_back system work nicely
+		for (int j = tree->startCoordinate.x; j < tree->startCoordinate.x + tree->size.x; j += 1) {
+			switch (tree->treeTiles.at(arraytracker)) {
+			case 0:
+				//cout << Tiles[{j, i}]->spriteID << endl;
+				break; //just don't change it, stay greeeeeen
+
+			case 1:
+				tileID = rand() % 2 + numberOfGrassTiles; //gives a number between 64 and 65, where the wood sprites are in the sprites array
+				
+				Tiles[{j, i}]->spriteID = tileID;
+				//cout << Tiles[{j, i}]->spriteID << endl;
+				break;
+			case 2:
+				tileID = rand() % 2 + numberOfGrassTiles + 2; //gives a number between 66 and 67, where the leaf sprites are in the sprites array
+				Tiles[{j, i}]->spriteID = tileID;
+				//cout << Tiles[{j, i}]->spriteID << endl;
+				break;
+			default :
+				cout << "added some new wood tiles, didya dummy" << endl;
+				break;
+			}
+			arraytracker++;
+		}		
+	}
+}
+void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 frames this function renders the tiles in a 30x30 box around the player
+	int startx = playerPos.x - 15;
+	int starty = playerPos.y - 15;
+	int tileID = 0;
+	for (int i = startx; i < startx + 30; i++) { // go across the 30 by 30 box (left to right), render the top edges
+		if (i >= 0) {
+
+			tileID = rand() % numberOfGrassTiles;
+			Tile * tempTile = new Tile(tileID);
+			Tiles[{i, starty}] = tempTile; //this will overwrite rivers, trees. NEEDS FIX AHAHAGAHAHAHAh
+			tileID = rand() % numberOfGrassTiles;
+			Tile * tempTile2 = new Tile(tileID);
+			Tiles[{i, starty + 30}] = tempTile2;
+		}
+	}
+	for (int i = starty + 1; i < starty + 30 - 1; i++) {//go down the edges, do the edges. moved by 1 bc we do those corners in the above for loop
+		if (i >= 0) {
+			tileID = rand() % numberOfGrassTiles;
+			Tile * tempTile = new Tile(tileID);
+			Tiles[{startx, i}] = tempTile;
+			tileID = rand() % numberOfGrassTiles;
+			Tile * tempTile2 = new Tile(tileID);
+			Tiles[{startx + 30, i}] = tempTile2;
+		}
+	}
+	
 }

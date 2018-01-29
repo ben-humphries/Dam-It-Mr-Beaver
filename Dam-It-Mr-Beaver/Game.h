@@ -14,6 +14,7 @@ public:
 		Exiting
 	};
 
+	
 	static int Init();
 	static void Start();
 	static void Update();
