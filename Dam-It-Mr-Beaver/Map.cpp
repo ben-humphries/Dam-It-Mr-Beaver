@@ -105,11 +105,11 @@ void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	for (float i = playerPos.y - 9; i < playerPos.y + 9; i += 1) {
 		for (float j = playerPos.x - 10; j < playerPos.x + 10; j += 1) {
 			if (i >= 0 && j >= 0) {
-				cout << j << " " << i << endl;
+				//cout << j << " " << i << endl;
 				tileSprites.at(Tiles.at({ j, i })->spriteID)->setPosition(j * sizeofpicture * scaleValue, i*  sizeofpicture * scaleValue);
 
 				target.draw(*tileSprites.at(Tiles.at({ j, i })->spriteID), states);
-				cout << "Done" << endl;
+				//cout << "Done" << endl;
 
 			}
 		}
@@ -172,29 +172,36 @@ int tileID = 0;
 	}
 }
 void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 frames this function renders the tiles in a 30x30 box around the player
-	int startx = playerPos.x - 15;
-	int starty = playerPos.y - 15;
+	int widthOfRenderBox = 30;
 	int tileID = 0;
-	for (int i = startx; i < startx + 30; i++) { // go across the 30 by 30 box (left to right), render the top edges
-		if (i >= 0) {
+	for (int i = 0; i < 2; i++) { //we run this whole thing twice so the rendered layer is two thick
+		widthOfRenderBox -= i * 2;
+		int startx = playerPos.x - widthOfRenderBox / 2;
+		int starty = playerPos.y - widthOfRenderBox / 2;
+		
+		for (int i = startx; i < startx + widthOfRenderBox; i++) { // go across the 30 by 30 box (left to right), render the top edges
+			if (i >= 0) {
 
-			tileID = rand() % numberOfGrassTiles;
-			Tile * tempTile = new Tile(tileID);
-			Tiles[{i, starty}] = tempTile; //this will overwrite rivers, trees. NEEDS FIX AHAHAGAHAHAHAh
-			tileID = rand() % numberOfGrassTiles;
-			Tile * tempTile2 = new Tile(tileID);
-			Tiles[{i, starty + 30}] = tempTile2;
+				tileID = rand() % numberOfGrassTiles;
+				Tile * tempTile = new Tile(tileID);
+				Tiles[{i, starty}] = tempTile; //this will overwrite rivers, trees. NEEDS FIX AHAHAGAHAHAHAh
+				tileID = rand() % numberOfGrassTiles;
+				Tile * tempTile2 = new Tile(tileID);
+				Tiles[{i, starty + widthOfRenderBox}] = tempTile2;
+			}
+		}
+		for (int i = starty + 1; i < starty + widthOfRenderBox - 1; i++) {//go down the edges, do the edges. moved by 1 bc we do those corners in the above for loop
+			if (i >= 0) {
+				tileID = rand() % numberOfGrassTiles;
+				Tile * tempTile = new Tile(tileID);
+				Tiles[{startx, i}] = tempTile;
+				tileID = rand() % numberOfGrassTiles;
+				Tile * tempTile2 = new Tile(tileID);
+				Tiles[{startx + widthOfRenderBox, i}] = tempTile2;
+				if (startx + 30 == 30 && i == 0) {
+					cout << "did it" << endl;
+				}
+			}
 		}
 	}
-	for (int i = starty + 1; i < starty + 30 - 1; i++) {//go down the edges, do the edges. moved by 1 bc we do those corners in the above for loop
-		if (i >= 0) {
-			tileID = rand() % numberOfGrassTiles;
-			Tile * tempTile = new Tile(tileID);
-			Tiles[{startx, i}] = tempTile;
-			tileID = rand() % numberOfGrassTiles;
-			Tile * tempTile2 = new Tile(tileID);
-			Tiles[{startx + 30, i}] = tempTile2;
-		}
-	}
-	
 }

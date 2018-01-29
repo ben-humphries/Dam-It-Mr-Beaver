@@ -104,13 +104,9 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
-	map.timeSinceLastDrawCheck ++;
-	//if (map.timeSinceLastDrawCheck >= 50) {
-		//map.whatTilesToDraw(player.findIntegerPlayerPosition(player.getPosition()));
-		//map.timeSinceLastDrawCheck = 0;
-	//}
+	
 	map.timeSinceLastRenderCheck++;
-	if (map.timeSinceLastRenderCheck >= 15) {
+	if (map.timeSinceLastRenderCheck >= 1) {
 		sf::Vector2<int> tempPlayerPos = player.findIntegerPlayerPosition(player.getPosition());
 		map.renderMoreTiles(tempPlayerPos);
 		map.playerPos = tempPlayerPos; //update the playerpos stored internally in map for drawing purposes. 
