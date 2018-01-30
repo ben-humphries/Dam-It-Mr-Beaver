@@ -17,6 +17,7 @@ void Map::initializeTiles() {
 	rect.width = sizeofpicture;
 	rect.left = 0;
 	rect.top = 0;
+	
 	for (int i = 0; i < numberOfGrassTiles; i++) { //this sets up the 64 grass sprites we use to make the whole map. the tile class then refrences somewhere inside this vector of sprites
 
 		sf::Sprite * tempTileSprite = new sf::Sprite;
@@ -105,11 +106,11 @@ void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 	for (float i = playerPos.y - 9; i < playerPos.y + 9; i += 1) {
 		for (float j = playerPos.x - 10; j < playerPos.x + 10; j += 1) {
 			if (i >= 0 && j >= 0) {
-				//cout << j << " " << i << endl;
+				
 				tileSprites.at(Tiles.at({ j, i })->spriteID)->setPosition(j * sizeofpicture * scaleValue, i*  sizeofpicture * scaleValue);
 
 				target.draw(*tileSprites.at(Tiles.at({ j, i })->spriteID), states);
-				//cout << "Done" << endl;
+				
 
 			}
 		}
@@ -172,10 +173,18 @@ int tileID = 0;
 	}
 }
 void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 frames this function renders the tiles in a 30x30 box around the player
-	int widthOfRenderBox = 30;
+	/*for (int i = playerPos.x - 15; i < playerPos.x + 15; i++) {
+		for (int j = playerPos.y - 15; j < playerPos.y + 15; j++) {
+			int tileID = rand() % numberOfGrassTiles;
+			Tile * tempTile = new Tile(tileID);
+			Tiles[{i, j}] = tempTile;
+		}
+	}
+	*/
+	int widthOfRenderBox = 32;
 	int tileID = 0;
 	for (int i = 0; i < 2; i++) { //we run this whole thing twice so the rendered layer is two thick
-		widthOfRenderBox -= i * 2;
+		widthOfRenderBox -= 2;
 		int startx = playerPos.x - widthOfRenderBox / 2;
 		int starty = playerPos.y - widthOfRenderBox / 2;
 		
@@ -190,7 +199,7 @@ void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 fra
 				Tiles[{i, starty + widthOfRenderBox}] = tempTile2;
 			}
 		}
-		for (int i = starty + 1; i < starty + widthOfRenderBox - 1; i++) {//go down the edges, do the edges. moved by 1 bc we do those corners in the above for loop
+		for (int i = starty; i < starty + widthOfRenderBox + 1; i++) {//go down the edges, do the edges. moved by 1 bc for some reason the bottom right corner wouldn't render and it crashed LOL
 			if (i >= 0) {
 				tileID = rand() % numberOfGrassTiles;
 				Tile * tempTile = new Tile(tileID);
@@ -201,6 +210,28 @@ void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 fra
 				if (startx + 30 == 30 && i == 0) {
 					cout << "did it" << endl;
 				}
+			}
+		}
+	}
+	
+}
+void Map::renderMoreTilesBig(sf::Vector2<int> playerPos) {
+	for (float i = playerPos.y - 250; i < playerPos.y + 250; i += 1) {
+		for (float j = playerPos.x - 250; j < playerPos.x + 250; j += 1) {
+			if (i >= 0 && j >= 0) {
+				//if (abs(playerPos.x - j) > 10 && abs(playerPos.y - i) > 8.5) {//if it's outside the FOV
+					Tiles[{j, i}] = NULL; //set to null so when the draw function calls it the game no break
+				//}
+			}
+		}
+	}
+	for (int i = playerPos.x - 10; i < playerPos.x + 10; i++) {
+		for (int j = playerPos.y - 9; j < playerPos.y + 9; j++) { //do the initial tile render. out of date but will use for now.
+			if (i >= 0 && j >= 0) {
+				int tileID = rand() % numberOfGrassTiles;//gives a value between 0 and the number of tile types
+				Tile * tempTile = new Tile(tileID);
+
+				Tiles[{i, j}] = tempTile;
 			}
 		}
 	}

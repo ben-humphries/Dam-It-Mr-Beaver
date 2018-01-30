@@ -18,8 +18,8 @@ public:
 	sf::Vector2<int> playerPos;
 	sf::IntRect rect;
 	sf::Texture tileTexture;
-	float timeSinceLastDrawCheck = 500; //this calculates how long it's been since the last tile location analysis. I think i'll do it once every 5 frames.
 	float timeSinceLastRenderCheck = 0; //this tracks how long it's been since we've checked to render more tiles. infinitiiiiiiiiiiiiiiiiiiiii
+	float timeSinceLastBigRenderCheck = 500; //this tracks how long it's been since we've made a huge block of tiles to null.
 	std::vector <Tile *> tempTiles;
 	//std::vector <Tile *> Tiles;
 	std::vector <sf::Sprite *> tileSprites;
@@ -28,6 +28,7 @@ public:
 	std::map < std::tuple<float, float>, Tile *> flowerTiles;
 	void initializeTiles();
 	void renderMoreTiles(sf::Vector2<int> playerPos);
+	void renderMoreTilesBig(sf::Vector2<int> playerPos);
 	void setupRiver(River * river);
 	void setupTree(Tree * tree); //as you can see, the tree and river setups are very similar. they could be merged into one master function, but that would require a lot of in function comparisons as the tiles grew in complexity. i think they should be seperate for now
 	void whatTilesToDraw(sf::Vector2<int> playerPos);

@@ -106,13 +106,14 @@ void Game::Update() {
 	////////
 	
 	map.timeSinceLastRenderCheck++;
-	if (map.timeSinceLastRenderCheck >= 1) {
+	
+	if (map.timeSinceLastRenderCheck >= 15) {
 		sf::Vector2<int> tempPlayerPos = player.findIntegerPlayerPosition(player.getPosition());
 		map.renderMoreTiles(tempPlayerPos);
-		map.playerPos = tempPlayerPos; //update the playerpos stored internally in map for drawing purposes. 
-		
+		map.playerPos = tempPlayerPos;
 		map.timeSinceLastRenderCheck = 0;
 	}
+	
 	gameWindow.draw(map);	
 	gameWindow.draw(player);
 	
