@@ -3,6 +3,8 @@
 class Player : public sf::Drawable, public sf::Transformable
 {
 public:
+	bool isCuttingDownTree = false; 
+	int timeCuttingDownTree = 0; 
 	Player(std::string dir);
 	~Player();
 

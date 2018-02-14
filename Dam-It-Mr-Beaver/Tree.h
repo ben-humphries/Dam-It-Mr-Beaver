@@ -6,6 +6,7 @@ public:
 	sf::Vector2<int> size;
 	std::vector<int> treeTiles;
 	sf::Vector2<int> startCoordinate;
+	std::map<std::tuple<int, int>, int> sprites;
 	~Tree();
 	void cutDown();
 	enum treeStates {

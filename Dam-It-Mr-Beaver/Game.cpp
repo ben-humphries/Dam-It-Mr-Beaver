@@ -84,6 +84,23 @@ void Game::Update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
 		velocity.x += speed * dt;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+		sf::Vector2<int> tileAbovePlayer = player.findIntegerPlayerPosition(player.getPosition()); 
+		tileAbovePlayer.y--;
+		if (tileAbovePlayer.x >= 0 && tileAbovePlayer.y >= 0) {
+			if (map.Tiles.at({ tileAbovePlayer.x, tileAbovePlayer.y })->tyleType == Tile::Wood) {//if the tile above them is wood. has to be updtated for player facing location
+				player.timeCuttingDownTree++;
+					if (player.timeCuttingDownTree >= 100) {//if they've been cutting down a tree for a while
+						map.chopTree(map.Trees[{map.Tiles[{ tileAbovePlayer.x, tileAbovePlayer.y }]->parentOrigin.x, map.Tiles[{ tileAbovePlayer.x, tileAbovePlayer.y }]->parentOrigin.y}]);
+						player.timeCuttingDownTree = 0;
+					}
+			}
+			else {
+				player.timeCuttingDownTree = 0;
+			}
+
+		}
+	}
 	player.move(velocity);
 
 	gameWindow.clear(sf::Color::White);

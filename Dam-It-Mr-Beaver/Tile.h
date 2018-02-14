@@ -14,7 +14,7 @@ static const int scaleValue = 10;
 class Tile : public sf::Drawable, public sf::Transformable
 {
 public:
-
+	sf::Vector2<int> parentOrigin; //this stores the location of the parent tree/river/house
 	Tile(std::string dir);
 	Tile(std::string dir, sf::IntRect rectangle);
 	Tile(int spriteIDi);
@@ -25,6 +25,8 @@ public:
 		Grass,
 		Water,
 		Wood,
+		LeafyLeaf,
+		Sapling,
 		Brick
 	};
 	TyleType tyleType = Grass;
