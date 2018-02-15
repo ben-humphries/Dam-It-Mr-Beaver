@@ -32,7 +32,6 @@ public:
 	std::map < std::tuple<float, float>, Tile *> flowerTiles;
 	void initializeTiles();
 	void renderMoreTiles(sf::Vector2<int> playerPos);
-	void renderMoreTilesBig(sf::Vector2<int> playerPos);
 	void renderRiver(River * river);
 	void renderTree(Tree * tree);
 	void setupRiver(River * river);

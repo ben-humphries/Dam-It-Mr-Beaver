@@ -345,24 +345,3 @@ void Map::renderMoreTiles(sf::Vector2<int> playerPos) { //basically every 15 fra
 		renderRiver(Rivers.at({ std::get<1>(importantTiles.at(0)).x, std::get<1>(importantTiles.at(0)).y })); // renders the first mega river 
 	}
 }
-void Map::renderMoreTilesBig(sf::Vector2<int> playerPos) {
-	for (float i = playerPos.y - 250; i < playerPos.y + 250; i += 1) {
-		for (float j = playerPos.x - 250; j < playerPos.x + 250; j += 1) {
-			if (i >= 0 && j >= 0)	{
-				//if (abs(playerPos.x - j) > 10 && abs(playerPos.y - i) > 8.5) {//if it's outside the FOV
-					Tiles[{j, i}] = NULL; //set to null so when the draw function calls it the game no break
-				//}
-			}
-		}
-	}
-	for (int i = playerPos.x - 10; i < playerPos.x + 10; i++) {
-		for (int j = playerPos.y - 9; j < playerPos.y + 9; j++) { //do the initial tile render. out of date but will use for now.
-			if (i >= 0 && j >= 0) {
-				int tileID = rand() % numberOfGrassTiles;//gives a value between 0 and the number of tile types
-				Tile * tempTile = new Tile(tileID);
-
-				Tiles[{i, j}] = tempTile;
-			}
-		}
-	}
-}
