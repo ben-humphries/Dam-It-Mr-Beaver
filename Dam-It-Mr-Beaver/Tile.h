@@ -9,7 +9,7 @@ const int flowerTypeCount = 11;
 const int heightofflower = 3;
 const int widthofflower = 3;
 
-
+static const int sizeofpicture = 16;
 static const int scaleValue = 10;
 class Tile : public sf::Drawable, public sf::Transformable
 {

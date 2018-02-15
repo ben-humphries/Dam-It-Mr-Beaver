@@ -1,11 +1,13 @@
 #include <SFML\Graphics.hpp>
-#include "Map.h"
+#include "Inventory.h"
+#include "Tile.h"
 class Player : public sf::Drawable, public sf::Transformable
 {
 public:
 	bool isCuttingDownTree = false; 
 	int timeCuttingDownTree = 0; 
 	Player(std::string dir);
+	Inventory * inventory = new Inventory(); 
 	~Player();
 
 	sf::Texture texture;

@@ -70,8 +70,17 @@ void Map::initializeTiles() {
 		}
 
 	}
-	
-	
+	sf::Sprite * tempTileSprite = new sf::Sprite;
+	tempTileSprite->setTexture(tileTexture); 
+	rect.left = 192;
+	rect.top = 224;
+	rect.height = 4;
+	rect.width = 4; 
+	tempTileSprite->setTextureRect(rect);
+	tempTileSprite->scale(scaleValue, scaleValue);
+	cout << "1" << endl;
+	//inventorySprites.at(Inventory::Wood) = { 0 , tempTileSprite }; //sets up the wood sprite
+	cout << "11" << endl;
 	for (int i = 0; i < mapWidth; i++) {
 		for (int j = 0; j < mapHeight; j++) { //do the initial tile render. out of date but will use for now.
 			
@@ -82,7 +91,7 @@ void Map::initializeTiles() {
 		}
 	}
 	//this next river is main river
-	River * river1 = new River(20, 5, 5, 5, {
+	River * river1 = new River(25, 20, 5, 5, {
 
 	});
 
@@ -109,11 +118,19 @@ void Map::initializeTiles() {
 		0, 1, 0
 	});
 	setupTree(tree1);	
+	Tree * tree2 = new Tree(3, 4, 27, 1, { //position is for top left of the thing, not bot right
+		0, 2, 0,
+		2, 2, 2,
+		0, 1, 0,
+		0, 1, 0
+	});
+	setupTree(tree2);
 
 }  
 
 
 void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
+	
 
 	for (float i = playerPos.y - 9; i < playerPos.y + 9; i += 1) {
 		for (float j = playerPos.x - 9; j < playerPos.x + 9; j += 1) {
@@ -128,7 +145,12 @@ void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const {
 			}
 		}
 	}
-
+	/*
+	if (std::get<0>(inventorySprites.at(Inventory::Wood)) > 0) {
+		std::get<1>(inventorySprites.at(Inventory::Wood))->setPosition(10, 10);
+		target.draw(*std::get<1>(inventorySprites.at(Inventory::Wood)));
+	}
+	*/
 }
 void Map::whatTilesToDraw(sf::Vector2<int> playerPos) {
 	
@@ -168,8 +190,7 @@ void Map::renderTree(Tree * tree) {
 			Tiles[{j, i}]->parentOrigin = tree->startCoordinate;
 			switch (tree->treeTiles.at(arraytracker)) {
 			case 0:
-				cout << j << " " << i << " " << arraytracker << " " << Tiles[{j, i}]->spriteID << endl;
-
+			
 				
 				break; //just don't change it, stay greeeeeen
 
@@ -224,6 +245,7 @@ void Map::setupTree(Tree * tree) {
 				break; //just don't change it, stay greeeeeen
 
 			case 1:
+				tree->woodSize++;
 				tileID = rand() % 2 + numberOfGrassTiles; //gives a number between 64 and 65, where the wood sprites are in the sprites array
 				tree->sprites[{j, i}] = tileID;
 
@@ -244,7 +266,10 @@ void Map::setupTree(Tree * tree) {
 	importantTiles.push_back({ 1,{ tree->startCoordinate.x, tree->startCoordinate.y } });
 	renderTree(tree);
 }
-void Map::chopTree(Tree * tree) {
+void Map::chopTree(Tree * tree, Player * player) {
+	//player->inventory->items[Inventory::Wood] += tree->woodSize;
+	//mapInventory = player->inventory; // i think this isn't necessary because of how i'm storing the sprites. will delete if so.
+	//std::get<0>(inventorySprites.at(Inventory::Wood))+= tree->woodSize;
 	int arrayCounter = 0;
 	int tileID = 0;                                                                                                                                                                                                                                   
 	for (int i = tree->startCoordinate.x; i < tree->startCoordinate.x + tree->size.x; i += 1) { //because the map coordinates and river size are in the same 1 per 1 tile system, += 1
@@ -254,8 +279,6 @@ void Map::chopTree(Tree * tree) {
 				tileID = rand() % numberOfGrassTiles;
 				Tiles[{i, j}]->spriteID = tileID;
 				tree->sprites[{i, j}] = tileID;
-				cout << i << " " << j << " sdsd" << arrayCounter << " " << Tiles[{i, j}]->spriteID << endl;
-
 		}
 			tree->treeTiles.at(arrayCounter) = 0; //goes through and makes all the tree tiles grass. we need to do this too, the thing above is just for sprites
 			arrayCounter++;
