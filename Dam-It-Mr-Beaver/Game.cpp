@@ -56,6 +56,7 @@ void Game::Start() {
 }
 
 void Game::Update() {
+	
 	float dt = ((float)(clock() - t)) / CLOCKS_PER_SEC;
 	t = clock();
 	sf::Event event;
@@ -121,13 +122,16 @@ void Game::Update() {
 	//gameWindow.draw(bgSprite);
 	gameWindow.draw(level);
 	////////
-	
+
+	if (map.timeSinceLastRenderCheck == 0) {//update the player position. only happens once every 12 frames.
+		map.playerPos = player.findIntegerPlayerPosition(player.getPosition());
+		
+	}
+
+	map.renderMoreTiles(map.playerPos, map.timeSinceLastRenderCheck);
 	map.timeSinceLastRenderCheck++;
 	
-	if (map.timeSinceLastRenderCheck >= 15) {
-		sf::Vector2<int> tempPlayerPos = player.findIntegerPlayerPosition(player.getPosition());
-		map.renderMoreTiles(tempPlayerPos);
-		map.playerPos = tempPlayerPos;
+	if (map.timeSinceLastRenderCheck > 12) {
 		map.timeSinceLastRenderCheck = 0;
 	}
 	
